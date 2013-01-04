@@ -1,14 +1,27 @@
 <?PHP
-// Details for generation
-$width = $_GET['width']/10;
-$height = $_GET['height']/10;
-$pixelSize = 10;
+// Hide errors
+error_reporting(0);
 
-// Debug code
-$debug = false;
+// Details for generation
+$pixelSize = 10;
+$maxWidth = 500;
+$maxHeight = 500;
+$totalMaxGenerations = 50;
+$width = $_GET['width']/$pixelSize;
+$height = $_GET['height']/$pixelSize;
+if ($width > $maxWidth/10 || $height > $maxHeight/10)
+{
+	$width = $maxWidth/10;
+	$height = $maxHeight/10;
+}
+
+if (empty($width) || empty($height) || empty($pixelSize))
+{
+	die("Missing parameters!");
+}
 
 // Image creation
-$image = imagecreatetruecolor($width*10, $height*10);
+$image = imagecreatetruecolor($width*$pixelSize, $height*$pixelSize);
 
 // Define colors
 $live = imagecolorallocate($image, 255, 255, 255); 
@@ -35,7 +48,6 @@ for ($x = 0; $x < $width; $x++)
 }
 
 // Loop through some generations
-$totalMaxGenerations = 50;
 if (!empty($_GET['generation'])) $maxGenerations = $_GET['generation'];
 if ($maxGenerations > $totalMaxGenerations)
 {
@@ -91,14 +103,13 @@ for ($x = 0; $x < $width; $x++)
 	{
 		if ($grid[$x][$y] == 1)
 		{
-			imagefilledrectangle($image, $x*10, $y*10, $x*10+$pixelSize-1, $y*10+$pixelSize-1, $live);
+			imagefilledrectangle($image, $x*$pixelSize, $y*$pixelSize, $x*$pixelSize+$pixelSize-1, $y*$pixelSize+$pixelSize-1, $live);
 		}
 	}
 }
 
-if (!$debug)
-{
-	header('Content-Type: image/png');
-	imagepng($image);
-}
+// Output PNG
+header('Content-Type: image/png');
+imagepng($image);
+
 ?>
