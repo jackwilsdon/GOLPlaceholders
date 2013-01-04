@@ -2,7 +2,7 @@ GOLPlaceholders
 ===============
 Placeholders, randomly generated from Conway's Game of Life.
 
-Visit [my website](http://placeholder.jackwilsdon.tk/) my website for more documentation.
+Visit [my website](http://placeholder.jackwilsdon.tk/) for more documentation.
 
 Prerequisites
 -------------
